@@ -1,0 +1,45 @@
+name: NPM Publish to GitHub Package Registry
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'dist/*'
+
+jobs:
+
+  build:
+
+  publish-npm:
+    needs: build
+    
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@peterhewat'
+
+      - name: Setup GIT
+        run: |
+          git switch -c master
+          git config user.email ""
+          git config user.name "Publish Action"
+
+      - name: Bump package.json version
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          npm version patch
+          git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY"
+
+      - name: Publish
+        env:
+          # NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.GPR_PAT}}
+        run: npm publish
