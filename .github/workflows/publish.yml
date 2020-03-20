@@ -14,7 +14,6 @@ jobs:
         with:
           node-version: 12
       - run: npm install
-      - run: npm install -g @angular/cli > /dev/null
       - run: npm run build
 
   publish-npm:
@@ -22,12 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: 12
-      - run: npm install
-      - run: npm install -g @angular/cli > /dev/null
-      - run: npm run build
+      - run: echo 'bonjour'
 
   publish-gpr:
     needs: build
