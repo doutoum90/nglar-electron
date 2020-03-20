@@ -2,6 +2,9 @@
   "name": "nglar-electron",
   "version": "0.0.0",
   "main": "main.js",
+  "author": {
+    "name": "Annour"
+  },
   "scripts": {
     "postinstall": "npx electron-builder install-app-deps",
     ".": "sh .angular-gui/.runner.sh",
@@ -41,7 +44,7 @@
     "electron:windows": "npm run build:electron:prod && npx electron-builder build --windows",
     "electron:mac": "npm run build:electron:prod && npx electron-builder build --mac"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~8.2.4",
     "@angular/common": "~8.2.4",
@@ -83,5 +86,8 @@
     "typescript": "~3.5.3",
     "wait-on": "^4.0.1",
     "webdriver-manager": "^12.1.7"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
