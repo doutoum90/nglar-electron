@@ -14,6 +14,7 @@ jobs:
         with:
           node-version: 12
       - run: npm install
+      - run: npm install -g @angular/cli > /dev/null
       - run: npm run build
 
   publish-npm:
@@ -21,7 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - run: echo 'bonjour'
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - run: npm install
+      - run: npm install -g @angular/cli > /dev/null
+      - run: npm run build
 
   publish-gpr:
     needs: build
@@ -40,7 +46,7 @@ jobs:
           git config user.email ""
           git config user.name "Publish Action"
 
-      - name: package.json version
+      - name: Bump package.json version
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
